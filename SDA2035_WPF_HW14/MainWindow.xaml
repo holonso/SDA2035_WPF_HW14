@@ -1,0 +1,57 @@
+﻿<Window x:Class="SDA2035_WPF_HW14.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SDA2035_WPF_HW14"
+        mc:Ignorable="d"
+        Title="ListBox_Task1" Height="450" Width="450">
+    <Window.Resources>
+        <local:ImageConverter x:Key="ImgConvert"/>
+        <DataTemplate x:Key="DataProduct">
+            
+            <Border x:Name="border1" Margin="10" Padding="5"
+                    BorderBrush="SkyBlue" BorderThickness="5"
+                    HorizontalAlignment="Stretch">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="180" />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Название:"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1"
+                               Text="{Binding Path=NameProduct}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Цена, руб.:"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1"
+                               Text="{Binding Path=CostProduct}"/>
+                    <Image Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" 
+                           Width="50" Height="50"
+                           Margin="10"
+                           Source="{Binding Path=TypeProduct, Converter= {StaticResource ImgConvert}}"/>
+                </Grid>
+            </Border>
+
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=TypeProduct}">
+                    <DataTrigger.Value>
+                        <local:IEnumTypeProduct>Food</local:IEnumTypeProduct>
+                    </DataTrigger.Value>
+                    <Setter TargetName="border1" Property="BorderBrush" Value="Lime"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <StackPanel>
+        <Label Content="Список товаров:" HorizontalAlignment="Center"/>
+        <ListBox x:Name="lst" Width="410" Margin="10"
+                 HorizontalAlignment="Stretch" 
+                 ItemTemplate="{StaticResource DataProduct}"/>
+    </StackPanel>
+</Window>
